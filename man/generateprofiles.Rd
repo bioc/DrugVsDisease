@@ -80,8 +80,7 @@ C. Pacini
 }
 \examples{
 
-profiles<-generateprofiles(input="GEO",accession="GDS2617",case="disease",statistic="t",annotation="hgu133a")
-
+profileAE<-generateprofiles(input="AE",accession="E-GEOD-22528")
 
 }
 
