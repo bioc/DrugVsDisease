@@ -34,36 +34,36 @@ The Drug versus Disease (DrugVsDisease) package provides a pipeline for the comp
 
 \section{A Simple Example}
 As an example we use DrugVsDisease to download and automatically process an experiment from Array Express (which makes use of the ArrayExpress R package). This experiment (with accession E-GEOD-22528) compares patients with and without asthma. Using DrugVsDisease, and the default data provided by the DvDdata package, we compare the ranked list of differentially expressed genes to those of cell lines treated with 1309 different drug compounds. The output from the package gives the ranked lists of differential expression with associated p-values and the scores using Gene Set Enrichment Analysis to the reference data set. To do the analysis we first download the data from Array Express, convert the probes to genes using BiomaRt annotations, and calculate differential expression of genes using limma.
-<<>>=
+<<eval=FALSE>>=
 library(DrugVsDisease)
 profileAE<-generateprofiles(input="AE",accession="E-GEOD-22528")
 @
 
 
 We can see the data that has been generated, the names of profileAE are ranklist for the differential expression profiles and pvalues for the corresponding pvalues
-<<>>=
+<<eval=FALSE>>=
 names(profileAE)
 @
 
 
 Within the ranklist or pvalues list, there is a matrix containing all fitted contrasts. DrugVsDisease expects that the profiles to be generated will contain either drug perturbations or a set of disease profiles. Using this information, DrugVsDisease searches the annotation files to find an allocate a main factor. This is disease.state for a disease profile or compound for a drug profile (based on the Array Express Factor values). The main factor is used as the explanatory factor in the regression model. In this example this is the only factor which can be fitted. In some cases, there will be additional factors, such as sex or time. Where these are available a second (additive) factor is added to the linear model automatically (in addition to the single factor model based on the main factor). The main factor in this example is given by "disease state" and the fitted contrasts are shown below.
-<<>>=
+<<eval=FALSE>>=
 colnames(profileAE$ranklist)
 @
 
 
 As the above output shows, DrugVsDisease identifies the main factor but not which of the levels in the factor is the control. Consequently, all possible pairwise contrasts are fitted for the given levels of the factor. This means that there will be redundant contrasts which are not interesting to the user, in this example, asthma-normal is interesting whilst normal-asthma is not. The next step is therefore, to select those contrasts to be analysed further which is done using the selectrankedlists function.
-<<>>=
+<<eval=FALSE>>=
 selprofiles<-selectrankedlists(profileAE,1)
 @
 
 
 Given the data to be analysed, we now use the classifyprofile function to calculate enrichment scores between the input profiles and the  data available from the DvDdata package (this can be changed to a users custom data). This data is based on the connectivity map drug screening. Here we use the default options to analyse the data. Note as this is an example, the signif.fdr value for the false discovery rate is set to 1.1, this is simply to restrict the situation where the process stops due to their being no significant matches, in practice the user should select a value greater than 0 and less than 1, 0.05 is a common choice.
 
-<<results=tex>>=
+<<results=tex,eval=FALSE>>=
 default<-classifyprofile(data=selprofiles$ranklist, signif.fdr=1.1)
 @
-<<echo=FALSE,results=tex>>=
+<<echo=FALSE,results=tex,eval=FALSE>>=
 library(xtable)
 default<-as.data.frame(default[[1]])
 xtable(default[,2:4])
@@ -120,7 +120,7 @@ To select just the 3rd and 18th profile profile from gds1479 and the first from 
 <<eval=FALSE>>=
 sel1479<-selectrankedlists(gds1479,c(3,18))
 @
-<<eval=TRUE>>=
+<<eval=FALSE>>=
 sel22528<-selectrankedlists(profileAE,1)
 @
 
@@ -193,7 +193,7 @@ clustermethod="average",avgstat="median")
 As well as the default disease and drug clusters contained in the DvDdata package, DrugVsDisease offers the option to use custom reference data sets and clusters provided by the user. To use the custom cluster options the user needs to provide genome wide expression profiles for the reference data set, using the customRefDB parameter. The rank profiles should be in rank decreasing order such that the highest up-regulated has the lowest numerical rank. This can be either an R matrix containing the expression profiles or a string containing the path to a file containing the reference data. Where a path to a file is provided the file will be read using the read.table option in R and will expect rownames in the first column and the remaining columns should contain the rank profiles and the column names will be used as the names for each of the profiles in the reference data set. These names should match the node names for the customClusters parameter. As with the reference data, the custom Cluster option can take either an R matrix or a path specifying the filename for the custom Clusters data. The first column should be either "Drug" or "Disease" depending on whether the profiles are drug or disease profiles respectively. The second column should be headed "Cluster" and contain the cluster number of the corresponding node in the network.
 If a cytoscape output is to be produced it is also necessary to provide a corresponding SIF and edge attribute file via parameters customsif and customedge. The DrugVsDisease package contains example data for the custom clustering option, which are derived from a subset of the reference drug data from the DvDdata package. This is shown in the example below, with the example data: customDB,customClust,customedge and customsif.
 
-<<eval=TRUE>>=
+<<eval=FALSE>>=
 data(customDB,package="DrugVsDisease")
 data(customClust,package="DrugVsDisease")
 data(customedge,package="DrugVsDisease")
