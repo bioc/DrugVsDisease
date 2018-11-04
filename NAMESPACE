@@ -1,1 +1,3 @@
 export(generateprofiles,selectrankedlists,classifyprofile,combineProfiles)
+  importFrom("stats", "ecdf", "median", "medpolish", "model.matrix","p.adjust", "setNames")
+  importFrom("utils", "combn", "data", "read.delim", "read.table", "write.table")
