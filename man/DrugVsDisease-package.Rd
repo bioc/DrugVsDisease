@@ -45,8 +45,8 @@ Proc. Natl. Acad. Sci. USA 102, 15545-15550.
 \code{\link{generateprofiles}}, \code{\link{selectrankedlists}}, \code{\link{classifyprofile}}
 }
 \examples{
-profileAE<-generateprofiles(input="AE",accession="E-GEOD-22528")
-selprofiles<-selectrankedlists(profileAE,1)
-default<-classifyprofile(data=selprofiles$ranklist, signif.fdr=1.1)
+#profileAE<-generateprofiles(input="AE",accession="E-GEOD-22528")
+#selprofiles<-selectrankedlists(profileAE,1)
+#default<-classifyprofile(data=selprofiles$ranklist, signif.fdr=1.1)
 }
 
