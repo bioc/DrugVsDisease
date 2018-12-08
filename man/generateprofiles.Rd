@@ -80,7 +80,7 @@ C. Pacini
 }
 \examples{
 
-profileAE<-generateprofiles(input="AE",accession="E-GEOD-22528")
+#profileAE<-generateprofiles(input="AE",accession="E-GEOD-22528")
 
 }
 
